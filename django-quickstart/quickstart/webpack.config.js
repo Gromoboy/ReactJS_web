@@ -4,9 +4,9 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
     entry: {
-        app: './index.jsx',
+        app: './test.js',
     },
-    context: `${__dirname}/static`,
+    context: `${__dirname}/static_src`,
     output: {
         path: `${__dirname}/static/build`,
         filename: NODE_ENV === 'development' ? '[name].js' : '[name]-[hash].js',
