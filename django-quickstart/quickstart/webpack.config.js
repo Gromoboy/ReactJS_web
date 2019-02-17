@@ -4,7 +4,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
     entry: {
-        app: './test.js',
+        app: './index.jsx',
     },
     context: `${__dirname}/static_src`,
     output: {
@@ -24,14 +24,27 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js)$/,
                 include: `${__dirname}/static_src`,
                 loader: 'babel-loader?presets[]=react&presets[]=es2015&presets[]=stage-1',
                 exclude: /node_modules/,
             },
             {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['react']
+                        }
+                    }
+                ],
+            },
+            {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
+                exclude: /node_modules/,
             },
             {
                 test: /\.scss$/,

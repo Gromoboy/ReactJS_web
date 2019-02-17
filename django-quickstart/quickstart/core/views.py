@@ -3,4 +3,4 @@ from django.views.generic import TemplateView
 # Create your views here.
 
 class QuickView(TemplateView):
-    template_name = 'core/quick.html'
+    template_name = 'core/index.html'
