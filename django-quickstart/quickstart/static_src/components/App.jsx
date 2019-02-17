@@ -6,7 +6,28 @@ export default class App extends React.Component {
         console.log('It works!');
     }
 
+    constructor() {
+        super();
+        this.state = {
+            date: 'Date:'
+        }
+        this.onClick = () => {
+            let now = new Date();
+
+            this.setState({date: `Today is ${now.toDateString()}` });
+        };
+    }
+
+
     render() {
-        return (<div className="test-class">{ this.props.param }</div>)
+        return (
+            <div className="test-class">
+                {this.state.date}
+                <br/>
+                { this.props.param }
+                <br/>
+                <button onClick={this.onClick}>Какой сегодня день?</button>
+            </div>
+        )
     }
 }
