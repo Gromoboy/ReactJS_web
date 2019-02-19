@@ -8,8 +8,8 @@ module.exports = {
   },
   context: `${__dirname}/static_src`,
   output: {
-    // path: `${__dirname}/static/build`,
-    path: 'C:\\oser\\OSPanel\\domains\\messanger.com',
+    path: `${__dirname}/static/build`,
+    // path: 'C:\\oser\\OSPanel\\domains\\messanger.com',
     filename: NODE_ENV === 'development' ? '[name].js' : '[name]-[hash].js',
     publicPath: '/static/build/',
   },

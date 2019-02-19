@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+.msg {
+  border-radius: 8px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px;
+  max-width: 50%;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.msgTime {
+  text-align: right;
+  color:lightgray;
+}
+
+.msg-content {
+  margin: 5px;
+  word-break: break-all;
+}
+
+.me .name {
+  color:black;
+}
+
+.me {
+  background-color: #f44336;
+  margin-left: 50%;
+}
+
+form {
+  margin: 10px;
+}
+input {
+  width: 100%;
+}
