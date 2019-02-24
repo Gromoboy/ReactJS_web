@@ -29,20 +29,20 @@ class MessageField extends React.Component {
    * @param doResetInput - обнуление поля ввода (бот посылает сообщение с задержкой
    *  - это запрет боту на стирание поля ввода пользователя)
    */
-  addMessage = (msg, sender, doResetInput = true) => {
+  addMessage = (msg, sender, doResetInput = true, chatId = this.props.chatId) => {
     const messages = { ...this.state.messages };//неглубокое копирование обЪекта
     const messageLists = {...this.state.messageLists};
-    const messageList = [...messageLists[this.props.chatId]];//неглубокое коп-ие массива
+    const messageList = [...messageLists[chatId]];//неглубокое коп-ие массива
     let {lastId} = this.state;
 
     lastId++;
     messageList.push(lastId);
-    messageLists[this.props.chatId] = messageList;
+    messageLists[chatId] = messageList;
     messages[lastId] = {
       sender: sender,
       message: msg,
       time: this.getCurTime(),
-      chatId: this.props.chatId
+      chatId: chatId,
     };
 
     if (doResetInput) this.setState({input:''});
@@ -76,9 +76,10 @@ class MessageField extends React.Component {
     return (
       <div className="chat-container">
         {
-          this.state.messageLists[this.props.chatId].length === 0 && <div style={{ opacity: 0.5 }}>
-            Пока нет ни одного сообщения
-          </div>
+          this.state.messageLists[this.props.chatId].length === 0
+              && <div style={{ opacity: 0.5 }}>
+                Пока нет ни одного сообщения
+              </div>
         }
         <div className="message-field">
         {messagesComponents}
@@ -107,8 +108,8 @@ class MessageField extends React.Component {
     const lastMessage = this.state.messageLists[this.props.chatId].slice(-1)[0];
     const sender = this.state.messages[lastMessage] ? this.state.messages[lastMessage].sender : '';
     if (prevState.messageLists[this.props.chatId].length < this.state.messageLists[this.props.chatId].length && sender === 'me') {
-
-      setTimeout(() => this.addMessage("Отвали, кожанный", 'бот', false), 2000);
+      const chatId = this.props.chatId;
+      setTimeout(() => this.addMessage("Отвали, кожанный", 'бот', false, chatId), 2000);
     }
   }
 }
