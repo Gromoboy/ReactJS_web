@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Chip from 'material-ui/Chip';
 
 class Message extends React.Component {
 
@@ -13,13 +14,15 @@ class Message extends React.Component {
     message: 'Привет, кожанный',
   };
 
+
   render() {
     return (
-      <div class={'msg ' + this.props.sender}>
-        <p class='name'>{this.props.sender}:</p>
-        <p class='msg-content'>{this.props.message}</p>
-        <p class='msgTime'>{this.props.time}</p>
-      </div>
+      <Chip className={'msg ' + this.props.sender} style={{margin: 2,}} >
+        <span className='name'>{this.props.sender}:</span>
+        {/*<hr/>*/}
+        <span className='msg-content'>{this.props.message}</span>
+        <span className='msgTime'>|{this.props.time}</span>
+      </Chip>
     );
   }
 }
