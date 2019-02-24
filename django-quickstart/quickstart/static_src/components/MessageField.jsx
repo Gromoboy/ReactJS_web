@@ -37,7 +37,7 @@ class MessageField extends React.Component {
 
     lastId++;
     messageList.push(lastId);
-    messageLists[lastId] = messageList;
+    messageLists[this.props.chatId] = messageList;
     messages[lastId] = {
       sender: sender,
       message: msg,
