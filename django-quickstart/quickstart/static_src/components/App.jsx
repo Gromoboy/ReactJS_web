@@ -1,33 +1,19 @@
 import React from 'react';
 import '../styles.css';
+import Layout from './Layout'
+import {Switch, Route} from "react-router-dom";
 
-export default class App extends React.Component {
-    componentDidMount () {
-        console.log('It works!');
-    }
-
-    constructor() {
-        super();
-        this.state = {
-            date: 'Date:'
-        }
-        this.onClick = () => {
-            let now = new Date();
-
-            this.setState({date: `Today is ${now.toDateString()}` });
-        };
-    }
-
-
+class App extends React.Component {
     render() {
         return (
-            <div className="test-class">
-                {this.state.date}
-                <br/>
-                { this.props.param }
-                <br/>
-                <button onClick={this.onClick}>Какой сегодня день?</button>
-            </div>
-        )
+            <Switch>
+                <Route exact path='/' component={Layout}/>
+                <Route exact path='/chat/:chatId'
+                       render={obj => <Layout chatId={obj.match.params.chatId}/>}
+                />
+            </Switch>
+        );
     }
 }
+
+export default App;

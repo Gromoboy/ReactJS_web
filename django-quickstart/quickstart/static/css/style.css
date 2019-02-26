@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+.message-field, form{
+  display: flex;
+  flex-direction: column;
+}
+#send-btn, .msg {
+
+  color: white;
+  border-radius: 8px;
+  margin: 5px;
+}
+.msg {
+  display: table;
+  background-color: #4CAF50; /* Green */
+  padding: 10px;
+  font-size: 16px;
+}
+#send-btn {
+  background-color: #008CBA; /* Blue */
+  border: none;
+  padding: 15px 15px;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+#send-btn:active {
+  box-shadow: none;
+  transform: translateY(4px);
+  filter: brightness(85%);
+}
+.msgTime, hr {
+  text-align: right;
+  color:lightgray;
+}
+
+.msg-content {
+  margin: 5px;
+  word-break: break-all;
+}
+
+.me {
+  background-color: #f44336;
+  align-self: end;
+}
+
+form {
+  margin: 10px;
+  display: flex;
+}
+input {
+  padding: 5px;
+  width: 100%;
+
+}
