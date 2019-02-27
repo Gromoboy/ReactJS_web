@@ -1,5 +1,5 @@
 import update from 'react-addons-update';
-import {TEST} from '../action/messageActions';
+import {SEND_MESSAGE, REPLAY_MESSAGE} from '../actions/messageActions';
 
 const initialStore = {
     lastId: 1,
@@ -21,7 +21,7 @@ function messageReducer(store = initialStore, action) {
                 [lastId]: {
                     sender: 'me',
                     message,
-                    time:new Date().toLocaleTimeString(), //TODO: move to action
+                    time,//:new Date().toLocaleTimeString(), //TODO: move to action
                     chatId
                 }
             };

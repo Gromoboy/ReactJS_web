@@ -4,20 +4,20 @@ import TextField from 'material-ui/TextField'
 import SendBtn from 'material-ui/FloatingActionButton';
 import SendIcon from 'material-ui/svg-icons/content/send';
 import '../styles/MessageField.sass';
-import PropTypes from ''
+// import PropTypes from ''
 
-import  {sendMessage, replayMessage} from "../actions/messageAction";
+import  {sendMessage, replayMessage} from "../actions/messageActions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 class MessageField extends React.Component {
-  static propTypes = {
-    chatId: PropTypes.string.isRequired,
-    sendMessage: PropTypes.func.isRequired,
-    replayMessage: PropTypes.func.isRequired,
-    messageLists: PropTypes.shape.isRequired,
-    messages: PropTypes.shape.isRequired
-  }
+  // static propTypes = {
+  //   chatId: PropTypes.string.isRequired,
+  //   sendMessage: PropTypes.func.isRequired,
+  //   replayMessage: PropTypes.func.isRequired,
+  //   messageLists: PropTypes.shape.isRequired,
+  //   messages: PropTypes.shape.isRequired
+  // }
 
   state = {
     lastId: 0,
@@ -37,6 +37,9 @@ class MessageField extends React.Component {
     this.props.SendMessage(this,props.chatId, this.state.input, new Date().toLocaleTimeString());
     this.setState({input: ''});
   };
+  handleReplayMessage = () => {
+    this.props.replayMessage(this.props.chatId, this.getCurTime());
+  }
 
   /**
    * обновление стэйта новым сообщением(пополнения списка сообщений)
@@ -45,25 +48,25 @@ class MessageField extends React.Component {
    * @param doResetInput - обнуление поля ввода (бот посылает сообщение с задержкой
    *  - это запрет боту на стирание поля ввода пользователя)
    */
-  addMessage = (msg, sender, doResetInput = true, chatId = this.props.chatId) => {
-    const messages = { ...this.state.messages };//неглубокое копирование обЪекта
-    const messageLists = {...this.state.messageLists};
-    const messageList = [...messageLists[chatId]];//неглубокое коп-ие массива
-    let {lastId} = this.state;
-
-    lastId++;
-    messageList.push(lastId);
-    messageLists[chatId] = messageList;
-    messages[lastId] = {
-      sender: sender,
-      message: msg,
-      time: this.getCurTime(),
-      chatId: chatId
-    };
-
-    if (doResetInput) this.setState({input:''});
-    this.setState({ messageLists, messages, lastId});
-  };
+  // addMessage = (msg, sender, doResetInput = true, chatId = this.props.chatId) => {
+  //   const messages = { ...this.state.messages };//неглубокое копирование обЪекта
+  //   const messageLists = {...this.state.messageLists};
+  //   const messageList = [...messageLists[chatId]];//неглубокое коп-ие массива
+  //   let {lastId} = this.state;
+  //
+  //   lastId++;
+  //   messageList.push(lastId);
+  //   messageLists[chatId] = messageList;
+  //   messages[lastId] = {
+  //     sender: sender,
+  //     message: msg,
+  //     time: this.getCurTime(),
+  //     chatId: chatId
+  //   };
+  //
+  //   if (doResetInput) this.setState({input:''});
+  //   this.setState({ messageLists, messages, lastId});
+  // };
 
   handleInput = e => {
     this.setState({ input: e.target.value });
@@ -117,23 +120,23 @@ class MessageField extends React.Component {
         </form>
       </div>
     )
-  }
+  };
 
 
-  componentDidUpdate(prevProps, prevState) {
-    const lastMessage = this.state.messageLists[this.props.chatId].slice(-1)[0];
-    const sender = this.state.messages[lastMessage] ? this.state.messages[lastMessage].sender : '';
-    if (prevState.messageLists[this.props.chatId].length < this.state.messageLists[this.props.chatId].length && sender === 'me') {
-      const chatId = this.props.chatId;
-      setTimeout(() => this.addMessage("Отвали, кожанный", 'бот', false, chatId), 2000);
-    }
-  }
+//   componentDidUpdate(prevProps, prevState) {
+//     const lastMessage = this.state.messageLists[this.props.chatId].slice(-1)[0];
+//     const sender = this.state.messages[lastMessage] ? this.state.messages[lastMessage].sender : '';
+//     if (prevState.messageLists[this.props.chatId].length < this.state.messageLists[this.props.chatId].length && sender === 'me') {
+//       const chatId = this.props.chatId;
+//       setTimeout(() => this.addMessage("Отвали, кожанный", 'бот', false, chatId), 2000);
+//     }
+//   }
 }
 
 // прокид в Redux
 const mapStateToProps = ({messageReducer}) => ({
   messageLists: messageReducer.messageLists,
   messages: messageReducer.messages,
-})
+});
 const mapDispatchToProps = dispatch => bindActionCreators({sendMessage, replayMessage}, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
