@@ -20,9 +20,7 @@ class MessageField extends React.Component {
   // }
 
   state = {
-    lastId: 0,
-    messageLists: {1: [], 2: [], 3: []},
-    messages: {},
+
     input: '',
 
   };
@@ -96,7 +94,7 @@ class MessageField extends React.Component {
     return (
       <div className="chat-container">
         {
-          this.state.messageLists[chatId].length === 0
+          messageLists[chatId].length === 0
             && <div style={{ opacity: 0.5 }}>
             Пока нет ни одного сообщения
           </div>
