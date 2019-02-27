@@ -37,8 +37,8 @@ class MessageField extends React.Component {
     this.props.sendMessage(this.props.chatId, this.state.input, new Date().toLocaleTimeString());
     this.setState({input: ''});
   };
-  handleReplayMessage = () => {
-    this.props.replayMessage(this.props.chatId, this.getCurTime());
+  handleReplayMessage = (chatId) => {
+    this.props.replayMessage(chatId, this.getCurTime());
   }
 
   /**
@@ -129,7 +129,7 @@ class MessageField extends React.Component {
     const lastMessage = messageLists[chatId].slice(-1)[0];
     const sender = messages[lastMessage] ? messages[lastMessage].sender : '';
     if (prevProps.messageLists[chatId].length < messageLists[chatId].length && sender === 'me') {
-      setTimeout(() => this.handleReplayMessage(), 2000);
+      setTimeout(() => this.handleReplayMessage(chatId), 2000);
     }
   }
 }
