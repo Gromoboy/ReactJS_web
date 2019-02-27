@@ -10,7 +10,7 @@ class ChatList extends React.Component{
         return (
             <List>
                 <NavLink to='/chat/1' activeStyle={{color: 'red',}}>
-                    <ListItem primaryText='Чат №1'/>
+                    <ListItem primaryText='Чат №1'/> ({this.props.messageLists[1].length})
                 </NavLink>
                 <NavLink to='/chat/2' activeStyle={{color: 'red',}}>
                     <ListItem primaryText="Чат №2 "/>
@@ -25,9 +25,10 @@ class ChatList extends React.Component{
     }
 }
 
-const mapStateToProps = ({ countReducer}) => ({
-    data: countReducer.data,
-    allMessCount: countReducer.allMessCount,
+const mapStateToProps = (state) => ({
+    data: state.countReducer.data,
+    allMessCount: state.countReducer.allMessCount,
+    messageLists: state.messageReducer.messageLists,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
