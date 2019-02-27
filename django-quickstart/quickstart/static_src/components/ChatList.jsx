@@ -13,11 +13,11 @@ class ChatList extends React.Component{
                     <ListItem primaryText='Чат №1'/> ({this.props.messageLists[1].length})
                 </NavLink>
                 <NavLink to='/chat/2' activeStyle={{color: 'red',}}>
-                    <ListItem primaryText="Чат №2 "/>
+                    <ListItem primaryText="Чат №2 "/> ({this.props.messageLists[2].length})
                 </NavLink>
 
                 <NavLink to='/chat/3' activeStyle={{color: 'red',}}>
-                    <ListItem primaryText="Чат №3 "/>
+                    <ListItem primaryText="Чат №3 "/> ({this.props.messageLists[3].length})
                 </NavLink>
                 <div>Сообщение №{this.props.allMessCount}: {this.props.data}</div>
             </List>
