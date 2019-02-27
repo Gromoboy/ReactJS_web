@@ -3,9 +3,22 @@ import Message from './Message'
 import TextField from 'material-ui/TextField'
 import SendBtn from 'material-ui/FloatingActionButton';
 import SendIcon from 'material-ui/svg-icons/content/send';
-import '../styles/MessageField.sass'
+import '../styles/MessageField.sass';
+import PropTypes from ''
+
+import  {sendMessage, replayMessage} from "../actions/messageAction";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 class MessageField extends React.Component {
+  static propTypes = {
+    chatId: PropTypes.string.isRequired,
+    sendMessage: PropTypes.func.isRequired,
+    replayMessage: PropTypes.func.isRequired,
+    messageLists: PropTypes.shape.isRequired,
+    messages: PropTypes.shape.isRequired
+  }
+
   state = {
     lastId: 0,
     messageLists: {1: [], 2: [], 3: []},
@@ -20,8 +33,11 @@ class MessageField extends React.Component {
 
   handleSendMess = () => {
     let {input} = this.state;
-    if(input !== '') this.addMessage( input,'me');
+    // if(input !== '') this.addMessage( input,'me');
+    this.props.SendMessage(this,props.chatId, this.state.input, new Date().toLocaleTimeString());
+    this.setState({input: ''});
   };
+
   /**
    * обновление стэйта новым сообщением(пополнения списка сообщений)
    * @param msg - новое сообщение
@@ -114,4 +130,10 @@ class MessageField extends React.Component {
   }
 }
 
-export default MessageField;
+// прокид в Redux
+const mapStateToProps = ({messageReducer}) => ({
+  messageLists: messageReducer.messageLists,
+  messages: messageReducer.messages,
+})
+const mapDispatchToProps = dispatch => bindActionCreators({sendMessage, replayMessage}, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
