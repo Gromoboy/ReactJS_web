@@ -81,8 +81,9 @@ class MessageField extends React.Component {
   }
 
   render() {
-    const messagesComponents = this.state.messageLists[this.props.chatId].map((messageId) => {
-      const {message, sender, time, chatId} = this.state.messages[messageId];
+    const {messageLists, messages, chatId} = this.props;
+    const messagesComponents = messageLists[chatId].map((messageId) => {
+      const {message, sender, time, chatId} = messages[messageId];
 
       return <Message
           key={messageId + '-' + time}
@@ -95,7 +96,7 @@ class MessageField extends React.Component {
     return (
       <div className="chat-container">
         {
-          this.state.messageLists[this.props.chatId].length === 0
+          this.state.messageLists[chatId].length === 0
             && <div style={{ opacity: 0.5 }}>
             Пока нет ни одного сообщения
           </div>
