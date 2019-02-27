@@ -34,7 +34,7 @@ class MessageField extends React.Component {
   handleSendMess = () => {
     let {input} = this.state;
     // if(input !== '') this.addMessage( input,'me');
-    this.props.SendMessage(this,props.chatId, this.state.input, new Date().toLocaleTimeString());
+    this.props.sendMessage(this.props.chatId, this.state.input, new Date().toLocaleTimeString());
     this.setState({input: ''});
   };
   handleReplayMessage = () => {
@@ -123,14 +123,14 @@ class MessageField extends React.Component {
   };
 
 
-//   componentDidUpdate(prevProps, prevState) {
-//     const lastMessage = this.state.messageLists[this.props.chatId].slice(-1)[0];
-//     const sender = this.state.messages[lastMessage] ? this.state.messages[lastMessage].sender : '';
-//     if (prevState.messageLists[this.props.chatId].length < this.state.messageLists[this.props.chatId].length && sender === 'me') {
-//       const chatId = this.props.chatId;
-//       setTimeout(() => this.addMessage("Отвали, кожанный", 'бот', false, chatId), 2000);
-//     }
-//   }
+  componentDidUpdate(prevProps) {
+    const {chatId, messageLists, messages} = this.props
+    const lastMessage = messageLists[chatId].slice(-1)[0];
+    const sender = messages[lastMessage] ? messages[lastMessage].sender : '';
+    if (prevProps.messageLists[chatId].length < messageLists[chatId].length && sender === 'me') {
+      setTimeout(() => this.handleReplayMessage(), 2000);
+    }
+  }
 }
 
 // прокид в Redux
