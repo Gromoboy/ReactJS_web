@@ -5,7 +5,7 @@ export default store => next => (action) => {
     switch (action.type) {
         case SEND_MESSAGE:
             // console.log('send message');
-            setTimeout(()=> store.dispatch(replayMessage(action.chatId)),1000);
+            setTimeout(()=> store.dispatch(replayMessage(action.chatId, new Date().toLocaleTimeString())),1000);
             break;
         case REPLAY_MESSAGE:
             console.log('bot');

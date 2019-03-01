@@ -1,9 +1,9 @@
 import update from 'react-addons-update';
-import {SEND_MESSAGE, REPLAY_MESSAGE} from '../actions/messageActions';
+import {SEND_MESSAGE, REPLAY_MESSAGE, ADD_CHAT} from '../actions/messageActions';
 
 const initialStore = {
     lastId: 1,
-    messageLists: {1:[], 2: [], 3:[], },
+    messageLists: {1: [], 2: [], 3: [],},
     messages: {},
 
 }
@@ -21,7 +21,7 @@ function messageReducer(store = initialStore, action) {
                 [lastId]: {
                     sender: 'me',
                     message,
-                    time,//:new Date().toLocaleTimeString(), //TODO: move to action
+                    time,
                     chatId
                 }
             };
@@ -42,7 +42,7 @@ function messageReducer(store = initialStore, action) {
                 [lastId]: {
                     sender: 'бот',
                     message: 'Отвали, кожанный',
-                    time:new Date().toLocaleTimeString(), //TODO: move to action
+                    time,
                     chatId,
                 }
             };
@@ -54,7 +54,15 @@ function messageReducer(store = initialStore, action) {
             });
 
         }
-        default: return store;
+        case ADD_CHAT: {
+            const newChatId = Object.keys(store.messageLists).length + 1;
+            const newMessagesLists = {...store.messageLists, [newChatId]: []};
+            return update(store, {
+                messageLists: {$set: newMessagesLists},
+            })
+        }
+        default:
+            return store;
     }
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import MessageField from './MessageField';
 import ChatList from './ChatList';
 import '../styles/layout.sass';
