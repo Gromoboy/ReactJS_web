@@ -33,40 +33,10 @@ class MessageField extends React.Component {
     handleSendMess = () => {
         let {input} = this.state;
         // if(input !== '') this.addMessage( input,'me');
-        this.props.sendMessage(this.props.chatId, this.state.input, new Date().toLocaleTimeString());
+        this.props.sendMessage(this.props.chatId, input, this.getCurTime());
         this.setState({input: ''});
-        this.props.countAll(this.state.input);
+        this.props.countAll(input);
     };
-    handleReplayMessage = (chatId) => {
-        this.props.replayMessage(chatId, this.getCurTime());
-    }
-
-    /**
-     * обновление стэйта новым сообщением(пополнения списка сообщений)
-     * @param msg - новое сообщение
-     * @param sender - автор сообщения
-     * @param doResetInput - обнуление поля ввода (бот посылает сообщение с задержкой
-     *  - это запрет боту на стирание поля ввода пользователя)
-     */
-        // addMessage = (msg, sender, doResetInput = true, chatId = this.props.chatId) => {
-        //   const messages = { ...this.state.messages };//неглубокое копирование обЪекта
-        //   const messageLists = {...this.state.messageLists};
-        //   const messageList = [...messageLists[chatId]];//неглубокое коп-ие массива
-        //   let {lastId} = this.state;
-        //
-        //   lastId++;
-        //   messageList.push(lastId);
-        //   messageLists[chatId] = messageList;
-        //   messages[lastId] = {
-        //     sender: sender,
-        //     message: msg,
-        //     time: this.getCurTime(),
-        //     chatId: chatId
-        //   };
-        //
-        //   if (doResetInput) this.setState({input:''});
-        //   this.setState({ messageLists, messages, lastId});
-        // };
 
     handleInput = e => {
         this.setState({input: e.target.value});
@@ -124,17 +94,7 @@ class MessageField extends React.Component {
     };
 
 
-    componentDidUpdate(prevProps) {
-        const {chatId, messageLists, messages} = this.props
-        const lastMessage = messageLists[chatId].slice(-1)[0];
-        const sender = messages[lastMessage] ? messages[lastMessage].sender : '';
-        if (prevProps.messageLists[chatId].length < messageLists[chatId].length && sender === 'me') {
-            setTimeout(() => {
-                this.handleReplayMessage(chatId);
-                this.props.countAll();
-            }, 2000);
-        }
-    }
+    componentDidUpdate(prevProps) {}
 }
 
 // прокид в Redux

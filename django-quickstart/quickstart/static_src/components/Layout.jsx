@@ -14,16 +14,12 @@ class Layout extends React.Component {
         chatId: '1',
     }
 
-    // state = {
-    //     lastId: 0,
-    //     messageLists: {1: [], 2: [], 3: []},
-    //     messages: {},
-    // }
+
 
     render() {
         return (
             [
-                <Header />,
+                <Header  />,
 
                 <div className="layout">
                     <div className="layout-left-side">

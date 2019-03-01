@@ -1,19 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 class Header extends React.Component {
-    static propTypes = {
-        messagesCount: PropTypes.number,
-    };
-    static defaultProps = {
-        messagesCount: 0,
-    };
+    // static propTypes = {
+    //     messagesCount: PropTypes.number,
+    // };
+    // static defaultProps = {
+    //     messagesCount: 0,
+    // };
 
     render() {
         return (
-            <div>{this.props.messagesCount}</div>
+            <div className="header">Сообщение №{this.props.allMessCount}: {this.props.data}</div>
         );
     };
 }
 
-export default Header;
+const mapStateToProps = ({countReducer}) => ({
+    data: countReducer.data,
+    allMessCount: countReducer.allMessCount,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
