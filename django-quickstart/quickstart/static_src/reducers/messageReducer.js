@@ -55,7 +55,7 @@ function messageReducer(store = initialStore, action) {
 
         }
         case ADD_CHAT: {
-            const newChatId = Object.keys(store.messageLists).length + 1;
+            const newChatId = action.name;
             const newMessagesLists = {...store.messageLists, [newChatId]: []};
             return update(store, {
                 messageLists: {$set: newMessagesLists},

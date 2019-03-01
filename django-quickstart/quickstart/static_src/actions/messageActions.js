@@ -15,7 +15,7 @@ export const replayMessage = (chatId,  time) => ({
 })
 
 export const ADD_CHAT = '@@chat/ADD_CHAT';
-export const addChat = () => ({
+export const addChat = (name) => ({
     type: ADD_CHAT,
-
+    name,
 })
