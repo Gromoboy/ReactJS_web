@@ -20,7 +20,7 @@ class ChatList extends React.Component {
         for (const chatId in this.props.messageLists) {
             chats.push(
                 <ListItem
-                    primaryText={'Чат №' + chatId}
+                    primaryText={chatId}
                     secondaryText={this.props.messageLists[chatId].length || '0'}
                     onClick={() => this.handleChangeChat(chatId)}
                     style={this.props.chatId === chatId ? {backgroundColor:'lightskyblue',} :''}
@@ -30,6 +30,8 @@ class ChatList extends React.Component {
 
         return (
             <List>
+                <h3> Список чатов:</h3>
+                <hr/>
                 {chats}
                 <ListItem
                     primaryText='Добавить новый чат'

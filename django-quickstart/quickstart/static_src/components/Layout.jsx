@@ -10,7 +10,7 @@ class Layout extends React.Component {
         chatId: PropTypes.string.isRequired,
     }
     static defaultProps = {
-        chatId: '1',
+        chatId: 'Общий',
     }
 
 

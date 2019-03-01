@@ -3,7 +3,7 @@ import {SEND_MESSAGE, REPLAY_MESSAGE, ADD_CHAT} from '../actions/messageActions'
 
 const initialStore = {
     lastId: 1,
-    messageLists: {1: [], 2: [], 3: [],},
+    messageLists: {'Общий': [], 'Anime': [], 'ReactJS': [],},
     messages: {},
 
 }
