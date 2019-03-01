@@ -6,26 +6,25 @@ import {connect} from "react-redux";
 import {push} from "react-router-redux";
 
 
-class ChatList extends React.Component{
+class ChatList extends React.Component {
     handleChangeChat = (chatId) => {
         this.props.push(`/chat/${chatId}`);
     }
+
     render() {
+        const chats = [];
+        for (const chatId in this.props.messageLists) {
+            chats.push(
+                <ListItem
+                    primaryText={'Чат №' + chatId}
+                    secondaryText={this.props.messageLists[chatId].length || '0'}
+                    onClick={() => this.handleChangeChat(chatId)}
+                />
+            )
+        }
         return (
             <List>
-
-                <ListItem
-                    primaryText='Чат №1'
-                    secondaryText={this.props.messageLists[1].length || '0'}
-                    onClick={() => this.handleChangeChat(1)}
-                />
-                <NavLink to='/chat/2' activeStyle={{color: 'red',fontWeight:'bold'}}>
-                    <ListItem primaryText="Чат №2 " secondaryText={this.props.messageLists[2].length || '0'}/>
-                </NavLink>
-
-                <NavLink to='/chat/3' activeStyle={{color: 'red', fontWeight:'bold'}}>
-                    <ListItem primaryText="Чат №3 " secondaryText={this.props.messageLists[3].length || '0'}/>
-                </NavLink>
+                {chats}
             </List>
         );
     }

@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import initReducers from './../reducers';//по умолчанию импортируется
 // index.js т.к. не указан файл, только папка
-// import middlewares from '../middlewares';
+import middlewares from '../middlewares';
 
 function initStore(additionalMiddlewares = []) {
     const initialStore = {};
@@ -9,7 +9,7 @@ function initStore(additionalMiddlewares = []) {
         initReducers,
         initialStore,
         compose(
-            applyMiddleware(...additionalMiddlewares,), //...middlewares),
+            applyMiddleware(...additionalMiddlewares, ...middlewares),
             window.__REDUX_DEVTOOLS_EXTENSION__(),
         )
     )
