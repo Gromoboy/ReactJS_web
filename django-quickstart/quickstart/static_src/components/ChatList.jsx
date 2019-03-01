@@ -19,6 +19,7 @@ class ChatList extends React.Component {
                     primaryText={'Чат №' + chatId}
                     secondaryText={this.props.messageLists[chatId].length || '0'}
                     onClick={() => this.handleChangeChat(chatId)}
+                    style={this.props.chatId === chatId ? {backgroundColor:'lightskyblue',} :''}
                 />
             )
         }
