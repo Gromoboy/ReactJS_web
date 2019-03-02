@@ -17,7 +17,7 @@ class Message extends React.Component {
 
   render() {
     return (
-      <Chip className={'msg ' + this.props.sender} style={{margin: 2,}} >
+      <Chip className={'msg ' + this.props.sender} style={{margin: 2,whiteSpace:'normal'}} >
         <span className='name'>{this.props.sender}:</span>
         {/*<hr/>*/}
         <span className='msg-content'>{this.props.message}</span>

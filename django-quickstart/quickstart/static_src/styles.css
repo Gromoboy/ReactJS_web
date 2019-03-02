@@ -1,3 +1,17 @@
 .test-class {
     color: brown;
 }
+
+.blink {
+    animation-name: blinker;
+    animation-iteration-count: 1;
+    animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
+    animation-duration: 0.5s;
+
+}
+
+@keyframes blinker {
+    to {
+        background-color: #f44336;
+    }
+}

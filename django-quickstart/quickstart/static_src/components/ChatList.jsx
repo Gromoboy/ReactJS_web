@@ -1,26 +1,85 @@
 import React from 'react';
 import {List, ListItem} from "material-ui";
-import {NavLink} from "react-router-dom";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {push} from "react-router-redux";
+import ChatAdd from 'material-ui/svg-icons/content/add';
+import {addChat} from "../actions/messageActions";
+import {TextField} from "material-ui";
 
 
-class ChatList extends React.Component{
+class ChatList extends React.Component {
+    state = {
+        isNewChatAdding: false,
+    }
+    handleChangeChat = (chatId) => {
+        this.props.push(`/chat/${chatId}`);
+    }
+    handleAddChat = () => {
+        let isNewChatAdding = true;
+        this.setState({isNewChatAdding});
+    }
+    handleEnter = e => {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            let isNewChatAdding = false;
+            this.props.addChat(e.target.value);
+            this.setState({isNewChatAdding});
+        }
+    }
+
     render() {
-        return (
-            <List>
-                <NavLink to='/chat/1' activeStyle={{color: 'red',}}>
-                    <ListItem primaryText='Чат №1'/>
-                </NavLink>
-                <NavLink to='/chat/2' activeStyle={{color: 'red',}}>
-                    <ListItem primaryText="Чат №2 "/>
-                </NavLink>
+        const chats = [];
+        let itr = 0;
+        for (const chatId in this.props.messageLists) {
+            itr++;
+            chats.push(
+                <ListItem
+                    className={this.props.highlightChat === chatId ? 'blink' : ''}
+                    key={itr + ':' + chatId}
+                    primaryText={chatId}
+                    secondaryText={this.props.messageLists[chatId].length || '0'}
+                    onClick={() => this.handleChangeChat(chatId)}
+                    style={this.props.chatId === chatId ? {backgroundColor: 'lightskyblue',} : {}}
+                />
+            )
+        }
 
-                <NavLink to='/chat/3' activeStyle={{color: 'red',}}>
-                    <ListItem primaryText="Чат №3 "/>
-                </NavLink>
+        return (
+            <List style={{padding:5, }}>
+                <h3> Список чатов:</h3>
+                <hr/>
+                {chats}
+                {
+                    /* new chat add*/
+                    this.state.isNewChatAdding ?
+                        <TextField name='chat-name-input'
+                                   hintText='Имя нового чата'
+                                   fullWidth={true}
+                                   onKeyDown={this.handleEnter}
+                        /> :
+                        <ListItem
+                            primaryText='Добавить новый чат'
+                            leftIcon={<ChatAdd/>}
+                            onClick={this.handleAddChat}
+                            className='blink'
+                        />
+                }
             </List>
         );
     }
 }
 
-export default ChatList;
+const mapStateToProps = (state) => ({
+    data: state.countReducer.data,
+    allMessCount: state.countReducer.allMessCount,
+    messageLists: state.messageReducer.messageLists,
+    highlightChat: state.messageReducer.highlightChat,
+
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({push, addChat}, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatList);
 

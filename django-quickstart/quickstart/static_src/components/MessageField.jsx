@@ -3,115 +3,108 @@ import Message from './Message'
 import TextField from 'material-ui/TextField'
 import SendBtn from 'material-ui/FloatingActionButton';
 import SendIcon from 'material-ui/svg-icons/content/send';
-import '../styles/MessageField.sass'
+import '../styles/MessageField.sass';
+import {countAll} from "../actions/countActions";
+// import PropTypes from ''
+
+import {sendMessage, replayMessage} from "../actions/messageActions";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 class MessageField extends React.Component {
-  state = {
-    lastId: 0,
-    messageLists: {1: [], 2: [], 3: []},
-    messages: {},
-    input: '',
+    // static propTypes = {
+    //   chatId: PropTypes.string.isRequired,
+    //   sendMessage: PropTypes.func.isRequired,
+    //   replayMessage: PropTypes.func.isRequired,
+    //   messageLists: PropTypes.shape.isRequired,
+    //   messages: PropTypes.shape.isRequired
+    // }
 
-  };
+    state = {
 
-  getCurTime = () => {
-      return new Date().toLocaleTimeString();
-  }
+        input: '',
 
-  handleSendMess = () => {
-    let {input} = this.state;
-    if(input !== '') this.addMessage( input,'me');
-  };
-  /**
-   * обновление стэйта новым сообщением(пополнения списка сообщений)
-   * @param msg - новое сообщение
-   * @param sender - автор сообщения
-   * @param doResetInput - обнуление поля ввода (бот посылает сообщение с задержкой
-   *  - это запрет боту на стирание поля ввода пользователя)
-   */
-  addMessage = (msg, sender, doResetInput = true, chatId = this.props.chatId) => {
-    const messages = { ...this.state.messages };//неглубокое копирование обЪекта
-    const messageLists = {...this.state.messageLists};
-    const messageList = [...messageLists[chatId]];//неглубокое коп-ие массива
-    let {lastId} = this.state;
-
-    lastId++;
-    messageList.push(lastId);
-    messageLists[chatId] = messageList;
-    messages[lastId] = {
-      sender: sender,
-      message: msg,
-      time: this.getCurTime(),
-      chatId: chatId,
     };
 
-    if (doResetInput) this.setState({input:''});
-    this.setState({ messageLists, messages, lastId});
-  };
-
-  handleInput = e => {
-    this.setState({ input: e.target.value });
-  };
-  // использование горячей клавиши Enter для ввода сообщения пользователя
-  handleEnter = e => {
-    if ( e.keyCode === 13) {
-      //e.ctrlKey &&
-      e.preventDefault();
-      document.getElementById('send-btn').click();
+    getCurTime = () => {
+        return new Date().toLocaleTimeString();
     }
-  }
 
-  render() {
-    const messagesComponents = this.state.messageLists[this.props.chatId].map((messageId) => {
-      const {message, sender, time, chatId} = this.state.messages[messageId];
+    handleSendMess = () => {
+        let {input} = this.state;
+        // if(input !== '') this.addMessage( input,'me');
+        this.props.sendMessage(this.props.chatId, input, this.getCurTime());
+        this.setState({input: ''});
+        this.props.countAll(input);
+    };
 
-      return <Message
-          key={messageId + '-' + time}
-          message={message}
-          sender={sender}
-          time={time}
-          chatId={chatId}
-      />
-    });
-    return (
-      <div className="chat-container">
-        {
-          this.state.messageLists[this.props.chatId].length === 0
-              && <div style={{ opacity: 0.5 }}>
-                Пока нет ни одного сообщения
-              </div>
+    handleInput = e => {
+        this.setState({input: e.target.value});
+    };
+    // использование горячей клавиши Enter для ввода сообщения пользователя
+    handleEnter = e => {
+        if (e.keyCode === 13) {
+            //e.ctrlKey &&
+            e.preventDefault();
+            document.getElementById('send-btn').click();
         }
-        <div className="message-field">
-        {messagesComponents}
-        </div>
-        <form action="#" className="send-mess-form">
-        
-          <TextField name="input"
-                     hintText="Написать сообщение"
-                     value={this.state.input}
-                     onChange={this.handleInput}
-                     onKeyDown={this.handleEnter}
-          />
-          <SendBtn mini={true}
-                   disabled={this.state.input === '' ? true : false}
-                   id="send-btn"
-                   onClick={this.handleSendMess}>
-            <SendIcon />
-          </SendBtn>
-        </form>
-      </div>
-    )
-  }
-
-
-  componentDidUpdate(prevProps, prevState) {
-    const lastMessage = this.state.messageLists[this.props.chatId].slice(-1)[0];
-    const sender = this.state.messages[lastMessage] ? this.state.messages[lastMessage].sender : '';
-    if (prevState.messageLists[this.props.chatId].length < this.state.messageLists[this.props.chatId].length && sender === 'me') {
-      const chatId = this.props.chatId;
-      setTimeout(() => this.addMessage("Отвали, кожанный", 'бот', false, chatId), 2000);
     }
-  }
+
+    render() {
+        const {messageLists, messages, chatId} = this.props;
+        console.log(chatId);
+        const messagesComponents = messageLists[chatId].map((messageId) => {
+            const {message, sender, time, chatId} = messages[messageId];
+
+            return <Message
+                key={messageId + '-' + time}
+                message={message}
+                sender={sender}
+                time={time}
+                chatId={chatId}
+            />
+        });
+        return (
+            <div className="chat-container">
+                {
+                    messageLists[chatId].length === 0
+                    && <div style={{opacity: 0.5}}>
+                        Пока нет ни одного сообщения
+                    </div>
+                }
+                <div className="message-field">
+                    {messagesComponents}
+                </div>
+                <form action="#" className="send-mess-form">
+
+                    <TextField name="input"
+                               hintText="Написать сообщение"
+                               value={this.state.input}
+                               onChange={this.handleInput}
+                               onKeyDown={this.handleEnter}
+                    />
+                    <SendBtn mini={true}
+                             disabled={this.state.input === '' ? true : false}
+                             id="send-btn"
+                             onClick={this.handleSendMess}>
+                        <SendIcon/>
+                    </SendBtn>
+                </form>
+            </div>
+        )
+    };
+
+
+    componentDidUpdate(prevProps) {}
 }
 
-export default MessageField;
+// прокид в Redux
+//можно передавать внутрь весь state (state) тогда обращение внутри
+//state.messageReducer.messages, если нужен один объект можно
+// записать как ниже
+const mapStateToProps = ({messageReducer}) => ({
+    messageLists: messageReducer.messageLists,
+    messages: messageReducer.messages,
+});
+const mapDispatchToProps = dispatch => bindActionCreators({sendMessage, replayMessage, countAll}, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageField);
