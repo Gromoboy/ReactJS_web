@@ -1,5 +1,7 @@
 import update from 'react-addons-update';
-import {SEND_MESSAGE, REPLAY_MESSAGE, ADD_CHAT, HIGHLIGHT_CHAT, } from '../actions/messageActions';
+import {
+    SEND_MESSAGE, REPLAY_MESSAGE, ADD_CHAT, HIGHLIGHT_CHAT, UNHIGHLIGHT_CHAT,
+} from '../actions/messageActions';
 
 const initialStore = {
     lastId: 1,
@@ -15,6 +17,11 @@ function messageReducer(store = initialStore, action) {
             return update(store, {
                 highlightChat: {$set: action.chatId},
             });
+        }
+        case UNHIGHLIGHT_CHAT: {
+            return update (store, {
+                highlightChat: {$set: ''},
+            })
         }
         case SEND_MESSAGE: {
             // айди чата и сообщение передаются через экшн(параметры?)

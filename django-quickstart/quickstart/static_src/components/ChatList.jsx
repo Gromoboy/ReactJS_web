@@ -75,6 +75,7 @@ const mapStateToProps = (state) => ({
     allMessCount: state.countReducer.allMessCount,
     messageLists: state.messageReducer.messageLists,
     highlightChat: state.messageReducer.highlightChat,
+
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({push, addChat}, dispatch);

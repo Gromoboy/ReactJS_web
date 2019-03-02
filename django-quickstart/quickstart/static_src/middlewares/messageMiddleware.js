@@ -1,6 +1,7 @@
 import { SEND_MESSAGE, replayMessage,
     REPLAY_MESSAGE,
-    HIGHLIGHT_CHAT,highlightChat
+    HIGHLIGHT_CHAT,highlightChat,
+    UNHIGHLIGHT_CHAT,unhighlightChat
 
 } from "../actions/messageActions";
 import {LOCATION_CHANGE} from "react-router-redux";
@@ -16,7 +17,8 @@ export default store => next => (action) => {
             store.dispatch(highlightChat(action.chatId));
             break;
         case HIGHLIGHT_CHAT:
-            // store.dispatch(unhighlightChat(action.chatId));
+            setTimeout(()=>store.dispatch(unhighlightChat()), 1000);
+            break;
         case LOCATION_CHANGE:
             console.log('Смена локации');
             break;

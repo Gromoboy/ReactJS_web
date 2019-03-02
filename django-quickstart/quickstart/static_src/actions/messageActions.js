@@ -25,3 +25,8 @@ export const highlightChat = chatId => ({
     type: HIGHLIGHT_CHAT,
     chatId
 })
+
+export const UNHIGHLIGHT_CHAT = '@@chat/UNHIGHLIGHT_CHAT';
+export const unhighlightChat = () => ({
+    type: UNHIGHLIGHT_CHAT,
+})
