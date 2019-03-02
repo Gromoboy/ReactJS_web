@@ -35,6 +35,7 @@ class ChatList extends React.Component {
             itr++;
             chats.push(
                 <ListItem
+                    className={this.props.highlightChat === chatId ? 'blink' : ''}
                     key={itr + ':' + chatId}
                     primaryText={chatId}
                     secondaryText={this.props.messageLists[chatId].length || '0'}
@@ -61,6 +62,7 @@ class ChatList extends React.Component {
                             primaryText='Добавить новый чат'
                             leftIcon={<ChatAdd/>}
                             onClick={this.handleAddChat}
+                            className='blink'
                         />
                 }
             </List>
@@ -72,6 +74,7 @@ const mapStateToProps = (state) => ({
     data: state.countReducer.data,
     allMessCount: state.countReducer.allMessCount,
     messageLists: state.messageReducer.messageLists,
+    highlightChat: state.messageReducer.highlightChat,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({push, addChat}, dispatch);

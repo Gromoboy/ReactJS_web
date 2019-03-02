@@ -1,4 +1,8 @@
-import { SEND_MESSAGE, replayMessage, REPLAY_MESSAGE } from "../actions/messageActions";
+import { SEND_MESSAGE, replayMessage,
+    REPLAY_MESSAGE,
+    HIGHLIGHT_CHAT,highlightChat
+
+} from "../actions/messageActions";
 import {LOCATION_CHANGE} from "react-router-redux";
 
 export default store => next => (action) => {
@@ -7,9 +11,12 @@ export default store => next => (action) => {
             // console.log('send message');
             setTimeout(()=> store.dispatch(replayMessage(action.chatId, new Date().toLocaleTimeString())),1000);
             break;
+            //TODO: реализовать акшэн Хайлайт и анхайлайт
         case REPLAY_MESSAGE:
-            console.log('bot');
+            store.dispatch(highlightChat(action.chatId));
             break;
+        case HIGHLIGHT_CHAT:
+            // store.dispatch(unhighlightChat(action.chatId));
         case LOCATION_CHANGE:
             console.log('Смена локации');
             break;

@@ -19,3 +19,9 @@ export const addChat = (name) => ({
     type: ADD_CHAT,
     name,
 })
+
+export const HIGHLIGHT_CHAT = '@@chat/HIGHLIGHT_CHAT';
+export const highlightChat = chatId => ({
+    type: HIGHLIGHT_CHAT,
+    chatId
+})
